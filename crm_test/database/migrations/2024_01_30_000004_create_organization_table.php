@@ -1,19 +1,27 @@
+// database/migrations/2024_01_30_000003_create_contact_table.php
 <?php
-// database/migrations/2024_01_30_000004_create_organization_table.php
-class CreateOrganizationTable extends Migration
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('organization', function (Blueprint $table) {
-            $table->id('organization_id');
-            $table->string('name', 50)->nullable(false);
-            $table->decimal('annual_revenue', 10, 2)->nullable();
-            $table->date('estd_date')->nullable();
-            $table->string('legal_structure', 30)->nullable();
-            $table->string('type_of_business', 30)->nullable();
-            $table->string('occupation', 50)->nullable();
-            $table->integer('employee_count')->nullable();
+        Schema::create('contact', function (Blueprint $table) {
+            $table->id('contact_id');
+            $table->string('first_name', 16)->nullable(false);
+            $table->string('last_name', 16)->nullable();
+            $table->string('source', 32)->nullable();
+            $table->string('occupation', 32)->nullable();
+            $table->date('dob')->nullable();
+            $table->string('gender', 16)->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('organization_id')->nullable()->constrained('organization', 'organization_id');
             $table->foreignId('company_id')->constrained('company', 'company_id');
             $table->integer('created_by')->nullable(false);
             $table->timestamp('created_at')->nullable(false);
@@ -23,10 +31,11 @@ class CreateOrganizationTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('organization');
+        Schema::dropIfExists('contact');
     }
-}
-
-// Additional related migrations follow similar pattern...
+};

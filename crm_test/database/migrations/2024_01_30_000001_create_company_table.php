@@ -1,12 +1,16 @@
-<?php
 // database/migrations/2024_01_30_000001_create_company_table.php
+<?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanyTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('company', function (Blueprint $table) {
             $table->id('company_id');
@@ -19,9 +23,11 @@ class CreateCompanyTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('company');
     }
-}
-
+};

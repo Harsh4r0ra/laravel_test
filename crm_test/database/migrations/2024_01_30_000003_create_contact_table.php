@@ -1,8 +1,16 @@
-<?php
 // database/migrations/2024_01_30_000003_create_contact_table.php
-class CreateContactTable extends Migration
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('contact', function (Blueprint $table) {
             $table->id('contact_id');
@@ -23,9 +31,11 @@ class CreateContactTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('contact');
     }
-}
-
+};
