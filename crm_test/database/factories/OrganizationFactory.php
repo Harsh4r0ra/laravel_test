@@ -1,6 +1,5 @@
 <?php
 
-/// database/factories/OrganizationFactory.php
 namespace Database\Factories;
 
 use App\Models\Organization;

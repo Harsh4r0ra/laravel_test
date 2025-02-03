@@ -1,5 +1,4 @@
 <?php
-// database/seeders/DatabaseSeeder.php
 
 namespace Database\Seeders;
 
@@ -13,9 +12,9 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             UserSeeder::class,
             OrganizationSeeder::class,
-            ContactSeeder::class,
             EmailSeeder::class,
             PhoneSeeder::class,
+            ContactSeeder::class,
         ]);
     }
 }

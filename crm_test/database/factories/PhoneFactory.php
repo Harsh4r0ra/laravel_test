@@ -1,6 +1,5 @@
 <?php
 
-// database/factories/PhoneFactory.php
 namespace Database\Factories;
 
 use App\Models\Phone;
@@ -14,9 +13,9 @@ class PhoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'country_code' => '+' . fake()->numberBetween(1, 99),
-            'std_code' => fake()->numerify('###'),
-            'phone_no' => fake()->numerify('##########'),
+            'country_code' => '+' . $this->faker->numberBetween(1, 99),
+            'std_code' => $this->faker->numerify('###'),
+            'phone_no' => $this->faker->numerify('##########'),
             'company_id' => Company::factory(),
             'created_by' => 1,
             'modified_by' => 1,

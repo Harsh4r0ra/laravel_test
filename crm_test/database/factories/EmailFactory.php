@@ -1,5 +1,5 @@
 <?php
-// database/factories/EmailFactory.php
+
 namespace Database\Factories;
 
 use App\Models\Email;
@@ -13,7 +13,7 @@ class EmailFactory extends Factory
     public function definition(): array
     {
         return [
-            'email' => fake()->unique()->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
             'company_id' => Company::factory(),
             'created_by' => 1,
             'modified_by' => 1,

@@ -1,5 +1,5 @@
 <?php
-// app/Models/Company.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +18,8 @@ class Company extends Model
     protected $fillable = [
         'company_name',
         'created_by',
-        'modified_by'
+        'modified_by',
+        'is_deleted'
     ];
 
     protected $dates = [
@@ -32,60 +33,21 @@ class Company extends Model
         return $this->hasMany(User::class, 'company_id');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class, 'company_id');
+    }
+
+    public function organizations()
+    {
+        return $this->hasMany(Organization::class, 'company_id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['*'])
-            ->logOnlyDirty();
+            ->logOnly(['company_name', 'is_deleted'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }
-
-// app/Models/Contact.php
-class Contact extends Model
-{
-    use LogsActivity, SoftDeletes;
-
-    protected $table = 'contact';
-    protected $primaryKey = 'contact_id';
-    public $timestamps = false;
-
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'source',
-        'occupation',
-        'dob',
-        'gender',
-        'description',
-        'organization_id',
-        'company_id',
-        'created_by',
-        'modified_by'
-    ];
-
-    protected $dates = [
-        'created_at',
-        'modified_at',
-        'deleted_at',
-        'dob'
-    ];
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class, 'organization_id');
-    }
-
-    public function phones()
-    {
-        return $this->belongsToMany(Phone::class, 'contact_phone')
-            ->withPivot('contact_phone_type', 'is_primary_phone');
-    }
-
-    public function emails()
-    {
-        return $this->belongsToMany(Email::class, 'contact_email')
-            ->withPivot('contact_email_type', 'is_primary_email');
-    }
-}
-
-// Additional models follow same pattern...

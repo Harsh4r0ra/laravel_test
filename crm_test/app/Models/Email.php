@@ -2,9 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 class Email extends Model
 {
-    use LogsActivity, SoftDeletes;
+    use LogsActivity, SoftDeletes, HasFactory;
 
     protected $table = 'email';
     protected $primaryKey = 'email_id';
@@ -25,12 +31,20 @@ class Email extends Model
 
     public function contacts()
     {
-        return $this->belongsToMany(Contact::class, 'contact_email')
+        return $this->belongsToMany(Contact::class, 'contact_email', 'email_id', 'contact_id')
             ->withPivot('contact_email_type', 'is_primary_email');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['*'])->logOnlyDirty();
+        return LogOptions::defaults()
+            ->logOnly(['email'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }

@@ -13,27 +13,32 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('company_id')->constrained('company', 'company_id');
+            $table->string('email_id')->unique();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->timestamp('last_password_reset_date')->nullable();
+            $table->string('mobile_number')->unique();
+            $table->string('user_name');
             $table->string('password');
+            $table->string('user_profile_photo')->nullable();
+            $table->integer('zone_id');
+            $table->integer('visibility_group_id');
+            $table->integer('userset_id');
+            $table->timestamp('dob')->nullable();
+            $table->text('security_question')->nullable();
+            $table->text('security_answer')->nullable();
+            $table->boolean('is_deleted')->default(false);
+            $table->boolean('is_account_expired')->default(false);
+            $table->boolean('is_account_locked')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_credentials_expired')->default(false);
+            $table->integer('created_by');
+            $table->integer('modified_by');
+            $table->timestamps(); // This will add both created_at and updated_at
+            $table->timestamp('modified_at')->nullable();
+            $table->softDeletes(); // This adds deleted_at
             $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
         });
     }
 
@@ -43,7 +48,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };

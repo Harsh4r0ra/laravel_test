@@ -1,15 +1,17 @@
 <?php
-// app/Models/Organization.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\OrganizationFactory;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
 class Organization extends Model
 {
-    use LogsActivity, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $table = 'organization';
     protected $primaryKey = 'organization_id';
@@ -36,14 +38,34 @@ class Organization extends Model
         'estd_date'
     ];
 
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return OrganizationFactory::new();
+    }
+
     public function contacts()
     {
-        return $this->belongsToMany(Contact::class, 'organization_contact')
-            ->withPivot('is_primary_contact');
+        return $this->hasMany(Contact::class, 'organization_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['*'])->logOnlyDirty();
+        return LogOptions::defaults()
+            ->logOnly([
+                'name',
+                'annual_revenue',
+                'legal_structure',
+                'type_of_business'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }
