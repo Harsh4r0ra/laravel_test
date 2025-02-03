@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
+        // Create admin user
         User::create([
             'company_id' => 1,
             'email_id' => 'admin@example.com',
@@ -26,5 +27,8 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'modified_at' => now()
         ]);
+
+        // Create additional test users
+        User::factory()->count(5)->create();
     }
 }

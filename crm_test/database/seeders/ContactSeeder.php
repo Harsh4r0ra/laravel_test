@@ -4,23 +4,18 @@
 namespace Database\Seeders;
 
 use App\Models\Contact;
+use App\Models\Email;
+use App\Models\Phone;
 use Illuminate\Database\Seeder;
 
 class ContactSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        Contact::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'source' => 'Direct',
-            'occupation' => 'Manager',
-            'gender' => 'Male',
-            'company_id' => 1,
-            'created_by' => 1,
-            'modified_by' => 1,
-            'created_at' => now(),
-            'modified_at' => now()
-        ]);
+        Contact::factory()
+            ->count(10)
+            ->has(Email::factory()->count(2))
+            ->has(Phone::factory()->count(2))
+            ->create();
     }
 }

@@ -15,17 +15,22 @@ class CompanyTest extends TestCase
 
     public function test_company_has_users()
     {
-        $company = Company::factory()->create();
-        User::factory()->count(3)->create(['company_id' => $company->company_id]);
+        $company = Company::factory()
+            ->has(User::factory()->count(3))
+            ->create();
 
-        $this->assertEquals(3, $company->users->count());
+        $this->assertCount(3, $company->users);
     }
 
-    public function test_company_has_contacts()
+    public function test_company_soft_deletes()
     {
         $company = Company::factory()->create();
-        Contact::factory()->count(3)->create(['company_id' => $company->company_id]);
+        $company->delete();
 
-        $this->assertEquals(3, $company->contacts->count());
+        $this->assertTrue($company->is_deleted);
+        $this->assertDatabaseHas('company', [
+            'company_id' => $company->company_id,
+            'is_deleted' => true
+        ]);
     }
 }

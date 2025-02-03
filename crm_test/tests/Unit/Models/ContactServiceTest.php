@@ -1,21 +1,26 @@
 <?php
 
-// tests/Unit/Services/ContactServiceTest.php
-namespace Tests\Unit\Services;
+// tests/Unit/Models/ContactServiceTest.php
+namespace Tests\Unit\Models;
+
+use Tests\TestCase;
+use App\Models\Contact;
+use App\Services\ContactService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContactServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $contactService;
+    private ContactService $contactService;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->contactService = app(ContactService::class);
+        $this->contactService = new ContactService();
     }
 
-    public function test_can_search_contacts()
+    public function test_can_search_contacts_by_name()
     {
         Contact::factory()->create([
             'first_name' => 'John',

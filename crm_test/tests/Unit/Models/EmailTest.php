@@ -1,7 +1,11 @@
 <?php
 // tests/Unit/Models/EmailTest.php
-
 namespace Tests\Unit\Models;
+
+use Tests\TestCase;
+use App\Models\Email;
+use App\Models\Contact;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EmailTest extends TestCase
 {
@@ -10,18 +14,19 @@ class EmailTest extends TestCase
     public function test_email_belongs_to_contacts()
     {
         $email = Email::factory()
-            ->hasContacts(2)
+            ->has(Contact::factory()->count(2), 'contacts')
             ->create();
 
-        $this->assertEquals(2, $email->contacts->count());
+        $this->assertCount(2, $email->contacts);
     }
 
-    public function test_email_validation()
+    public function test_email_must_be_unique()
     {
-        $email = Email::factory()->create([
-            'email' => 'test@example.com'
-        ]);
+        $email = Email::factory()->create();
 
-        $this->assertTrue(filter_var($email->email, FILTER_VALIDATE_EMAIL) !== false);
+        $this->expectException(\Illuminate\Database\QueryException::class);
+        Email::factory()->create([
+            'email' => $email->email
+        ]);
     }
 }
