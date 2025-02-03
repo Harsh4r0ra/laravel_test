@@ -11,12 +11,12 @@ class PhoneFactory extends Factory
 {
     protected $model = Phone::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'country_code' => '+' . $this->faker->numberBetween(1, 99),
-            'std_code' => $this->faker->numberBetween(100, 999),
-            'phone_no' => $this->faker->numerify('##########'),
+            'country_code' => '+' . fake()->numberBetween(1, 99),
+            'std_code' => fake()->numerify('###'),
+            'phone_no' => fake()->numerify('##########'),
             'company_id' => Company::factory(),
             'created_by' => 1,
             'modified_by' => 1,

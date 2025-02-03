@@ -1,4 +1,3 @@
-// database/migrations/2024_01_30_000003_create_contact_table.php
 <?php
 
 use Illuminate\Database\Migrations\Migration;

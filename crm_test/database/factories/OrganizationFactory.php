@@ -1,6 +1,6 @@
 <?php
 
-// database/factories/OrganizationFactory.php
+/// database/factories/OrganizationFactory.php
 namespace Database\Factories;
 
 use App\Models\Organization;
@@ -11,17 +11,17 @@ class OrganizationFactory extends Factory
 {
     protected $model = Organization::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => $this->faker->company,
-            'annual_revenue' => $this->faker->randomFloat(2, 10000, 1000000),
-            'estd_date' => $this->faker->date(),
-            'legal_structure' => $this->faker->randomElement(['Corporation', 'LLC', 'Partnership']),
-            'type_of_business' => $this->faker->randomElement(['Retail', 'Manufacturing', 'Service']),
-            'occupation' => $this->faker->jobTitle,
-            'employee_count' => $this->faker->numberBetween(5, 1000),
-            'description' => $this->faker->text(),
+            'name' => fake()->company(),
+            'annual_revenue' => fake()->randomFloat(2, 10000, 1000000),
+            'estd_date' => fake()->date(),
+            'legal_structure' => fake()->randomElement(['Corporation', 'LLC', 'Partnership']),
+            'type_of_business' => fake()->randomElement(['Retail', 'Manufacturing', 'Service']),
+            'occupation' => fake()->jobTitle(),
+            'employee_count' => fake()->numberBetween(5, 1000),
+            'description' => fake()->text(),
             'company_id' => Company::factory(),
             'created_by' => 1,
             'modified_by' => 1,

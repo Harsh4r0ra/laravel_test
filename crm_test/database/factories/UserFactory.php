@@ -1,44 +1,34 @@
 <?php
 
+// database/factories/UserFactory.php
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
+    protected $model = User::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'company_id' => Company::factory(),
+            'email_id' => fake()->unique()->safeEmail(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'mobile_number' => fake()->unique()->phoneNumber(),
+            'user_name' => fake()->userName(),
+            'password' => Hash::make('password'),
+            'zone_id' => fake()->numberBetween(1, 5),
+            'visibility_group_id' => fake()->numberBetween(1, 3),
+            'userset_id' => fake()->numberBetween(1, 3),
+            'created_by' => 1,
+            'modified_by' => 1,
+            'created_at' => now(),
+            'modified_at' => now()
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }
