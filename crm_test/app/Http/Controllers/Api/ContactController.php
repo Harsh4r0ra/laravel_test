@@ -15,12 +15,30 @@ class ContactController extends Controller
         $this->contactService = $contactService;
     }
 
+    public function searchContacts($searchTerm)
+{
+    return Contact::with(['phones', 'emails', 'organization'])
+        ->where(function ($query) use ($searchTerm) {
+            $query->where('first_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('last_name', 'LIKE', "%{$searchTerm}%");
+        })
+        ->get();
+}
+
     public function view(Request $request)
     {
         try {
-            $data = $request->has('contactId') 
+            if (!$request->has('contactId') && !$request->has('searchTerm')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Contact ID or search term is required',
+                    'statusCode' => '400'
+                ], 400);
+            }
+
+            $data = $request->has('contactId')
                 ? $this->contactService->getContactById($request->contactId)
-                : $this->contactService->searchContacts($request->contactName);
+                : $this->contactService->searchContacts($request->searchTerm);
 
             return response()->json([
                 'success' => true,
@@ -29,12 +47,19 @@ class ContactController extends Controller
                 'statusCode' => '200',
                 'pageable' => ''
             ]);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'statusCode' => '404'
+            ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
                 'statusCode' => '500'
-            ]);
+            ], 500);
         }
     }
 }

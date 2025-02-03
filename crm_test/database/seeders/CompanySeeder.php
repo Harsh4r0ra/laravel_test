@@ -8,38 +8,13 @@ use Illuminate\Database\Seeder;
 
 class CompanySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        // Create default company
         Company::create([
-            'company_name' => 'Default Company',
-            'created_by' => 1,
-            'modified_by' => 1,
+            'name' => 'Default Company',
+            'is_deleted' => false,
             'created_at' => now(),
-            'modified_at' => now(),
-            'is_deleted' => false
-        ]);
-
-        // Create additional companies manually first
-        Company::create([
-            'company_name' => 'Test Company 1',
-            'created_by' => 1,
-            'modified_by' => 1,
-            'created_at' => now(),
-            'modified_at' => now(),
-            'is_deleted' => false
-        ]);
-
-        Company::create([
-            'company_name' => 'Test Company 2',
-            'created_by' => 1,
-            'modified_by' => 1,
-            'created_at' => now(),
-            'modified_at' => now(),
-            'is_deleted' => false
+            'updated_at' => now()
         ]);
     }
 }

@@ -10,35 +10,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id('user_id');
             $table->foreignId('company_id')->constrained('company', 'company_id');
-            $table->integer('created_by')->nullable(false);
-            $table->timestamp('created_at')->nullable(false);
-            $table->integer('modified_by')->nullable(false);
-            $table->timestamp('modified_at')->nullable(true);
-            $table->boolean('is_deleted')->default(false);
-            $table->boolean('is_account_expired')->default(false);
-            $table->boolean('is_account_locked')->default(false);
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_credentials_expired')->default(false);
-            $table->string('email_id', 255)->unique();
-            $table->string('first_name', 255);
-            $table->string('last_name', 255);
-            $table->timestamp('last_password_reset_date')->nullable();
-            $table->string('mobile_number', 255)->unique();
-            $table->string('user_name', 255);
-            $table->string('password', 255);
-            $table->string('user_profile_photo', 255)->nullable();
-            $table->integer('zone_id')->nullable(false);
-            $table->integer('visibility_group_id')->nullable(false);
-            $table->integer('userset_id')->nullable(false);
-            $table->timestamp('dob')->nullable();
-            $table->text('security_question')->nullable();
-            $table->text('security_answer')->nullable();
-        });
+            $table->foreignId('email_id');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('mobile_number');
+            $table->string('user_name')->unique();
+            $table->string('password');
+            $table->foreignId('zone_id');
+            $table->foreignId('visibility_group_id');
+            $table->foreignId('userset_id');
+            $table->foreignId('created_by');
+            $table->foreignId('modified_by');
+            $table->timestamp('created_at');
+            $table->timestamp('modified_at');
+            $table->boolean('is_active');
+            $table->softDeletes();
+            });
     }
 
     /**

@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
 class Company extends Model
 {
-    use LogsActivity, SoftDeletes;
+    use LogsActivity, HasFactory;
 
     protected $table = 'company';
     protected $primaryKey = 'company_id';
@@ -24,8 +24,7 @@ class Company extends Model
 
     protected $dates = [
         'created_at',
-        'modified_at',
-        'deleted_at'
+        'modified_at'
     ];
 
     public function users()

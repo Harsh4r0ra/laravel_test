@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Contact;
+use App\Models\Company;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,12 +21,10 @@ class ContactFactory extends Factory
             'dob' => $this->faker->date(),
             'gender' => $this->faker->randomElement(['Male', 'Female']),
             'description' => $this->faker->text(),
-            'organization_id' => 1, // Use existing organization ID
-            'company_id' => 1, // Use existing company ID
-            'created_by' => 1,
-            'modified_by' => 1,
+            'organization_id' => Organization::factory(),
+            'company_id' => Company::factory(),
             'created_at' => now(),
-            'modified_at' => now()
+            'updated_at' => now()
         ];
     }
 }

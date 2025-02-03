@@ -6,12 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('crm_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('company', 'company_id');
             $table->string('email_id')->unique();
@@ -35,18 +32,15 @@ return new class extends Migration
             $table->boolean('is_credentials_expired')->default(false);
             $table->integer('created_by');
             $table->integer('modified_by');
-            $table->timestamps(); // This will add both created_at and updated_at
+            $table->timestamps();
             $table->timestamp('modified_at')->nullable();
-            $table->softDeletes(); // This adds deleted_at
+            $table->softDeletes();
             $table->rememberToken();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('crm_users');
     }
 };

@@ -2,35 +2,27 @@
 
 namespace Database\Seeders;
 
-use App\Models\Phone;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PhoneSeeder extends Seeder
 {
-    public function run(): void
+    /**
+     * Run the database seeds.
+     */
+    public function run()
     {
-        // Create a default phone
-        Phone::create([
+        DB::table('phone')->insert([
             'country_code' => '+1',
             'std_code' => '123',
             'phone_no' => '1234567890',
             'company_id' => 1,
             'created_by' => 1,
-            'modified_by' => 1,
-            'created_at' => now(),
-            'modified_at' => now()
-        ]);
-
-        // Create additional test phone
-        Phone::create([
-            'country_code' => '+1',
-            'std_code' => '456',
-            'phone_no' => '9876543210',
-            'company_id' => 1,
-            'created_by' => 1,
-            'modified_by' => 1,
-            'created_at' => now(),
-            'modified_at' => now()
+            'modified_by' => 1, // This is now nullable
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            'modified_at' => Carbon::now(), // Fix: Ensure modified_at is set
         ]);
     }
 }

@@ -10,16 +10,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('company', function (Blueprint $table) {
-            $table->id('company_id');
-            $table->integer('created_by')->nullable(false);
-            $table->timestamp('created_at')->nullable(false);
-            $table->integer('modified_by')->nullable(false);
-            $table->timestamp('modified_at')->nullable(false);
+            $table->id('company_id');  // Changed from id('company_id')
+            $table->string('name');
             $table->boolean('is_deleted')->default(false);
-            $table->string('company_name', 255);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
